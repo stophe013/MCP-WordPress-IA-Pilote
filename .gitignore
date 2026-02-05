@@ -3,6 +3,5 @@
 .DS_Store
 Thumbs.db
 
-# MCP bridge
-mcp/.env
-mcp/node_modules/
+# Local dev leftovers (bridge moved to separate repo)
+mcp/

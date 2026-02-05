@@ -35,31 +35,32 @@ npx -v
 
 Utile si votre client MCP exige un serveur local en stdio ou n'accepte pas les noms d'outils avec `/`.
 
-```bash
-cd mcp
-npm ci
-npm run build
-copy .env.example .env   # Windows (ou `cp .env.example .env` sur Mac/Linux)
-```
-
-Editez `mcp/.env` puis testez :
-
-```bash
-cd mcp
-npm run test:connection
-```
-
-Config client (chemin absolu) :
+Config client (recommandé: `npx`) :
 
 ```json
 {
   "mcpServers": {
     "ia-pilote-bridge": {
-      "command": "node",
-      "args": ["C:/chemin/absolu/vers/le/repo/mcp/build/index.js"]
+      "command": "npx",
+      "args": ["-y", "github:stophe013/ia-pilote-mcp-bridge"],
+      "env": {
+        "WP_URL": "https://example.com",
+        "WP_USERNAME": "USERNAME",
+        "WP_APP_PASSWORD": "xxxx xxxx xxxx xxxx"
+      }
     }
   }
 }
+```
+
+Alternative (si vous voulez cloner) :
+
+```bash
+git clone https://github.com/stophe013/ia-pilote-mcp-bridge.git
+cd ia-pilote-mcp-bridge
+npm ci
+npm run build
+node build/index.js
 ```
 
 ## 4) Claude Desktop (recommandé : mcp-remote)

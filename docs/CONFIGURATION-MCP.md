@@ -111,27 +111,22 @@ Ce bridge tourne **sur votre ordinateur**, pas sur WordPress. Il appelle ensuite
 
 ### Installation
 
-Dans le dossier `mcp/` (fourni avec le projet) :
+Vous pouvez l'installer et le lancer directement via `npx` (recommandé) :
 
 ```bash
-cd mcp
-npm ci
-npm run build
+npx -y github:stophe013/ia-pilote-mcp-bridge
 ```
 
-Créez ensuite votre fichier `mcp/.env` :
+Le bridge utilise ces variables d'environnement (via votre client MCP ou un fichier `.env`) :
 
-1. Copier `mcp/.env.example` vers `mcp/.env`
-2. Modifier `mcp/.env` :
-   - `WP_URL=https://example.com`
-   - `WP_USERNAME=...`
-   - `WP_APP_PASSWORD="xxxx xxxx xxxx xxxx"` (gardez les guillemets si le mot de passe contient des espaces)
+- `WP_URL=https://example.com`
+- `WP_USERNAME=...`
+- `WP_APP_PASSWORD="xxxx xxxx xxxx xxxx"` (gardez les guillemets si le mot de passe contient des espaces)
 
 ### Test
 
 ```bash
-cd mcp
-npm run test:connection
+npx -y github:stophe013/ia-pilote-mcp-bridge
 ```
 
 ### Exemple Claude Desktop (bridge local)
@@ -140,8 +135,13 @@ npm run test:connection
 {
   "mcpServers": {
     "ia-pilote-bridge": {
-      "command": "node",
-      "args": ["C:/chemin/absolu/vers/le/repo/mcp/build/index.js"]
+      "command": "npx",
+      "args": ["-y", "github:stophe013/ia-pilote-mcp-bridge"],
+      "env": {
+        "WP_URL": "https://example.com",
+        "WP_USERNAME": "USERNAME",
+        "WP_APP_PASSWORD": "xxxx xxxx xxxx xxxx"
+      }
     }
   }
 }
@@ -149,7 +149,7 @@ npm run test:connection
 
 Notes :
 
-- utilisez un **chemin absolu** vers `mcp/build/index.js` (les clients ne fixent pas toujours le répertoire courant)
+- si vous clonez le dépôt et lancez via `node build/index.js`, utilisez un **chemin absolu** vers `build/index.js`
 - les tools exposés par le bridge seront du type `adjm__list-pages` (au lieu de `adjm/list-pages`)
 
 ---
