@@ -1,90 +1,51 @@
-# IA Pilote MCP Ability
+# 🌉 Pont MCP pour IA Pilote WordPress
 
-Solution MCP pour WordPress : expose des "abilities" via REST et via les endpoints MCP (tools/list + tools/call) pour piloter un site depuis un client MCP (Claude Desktop, Cursor, VS Code, etc.).
+Ce serveur MCP permet de connecter Agravity (Cursor) ou Claude Desktop à votre site WordPress équipé du plugin "IA Pilote".
 
-## Prerequis
+## 🛠️ Installation
 
-- WordPress >= 6.0
-- PHP >= 7.4
-- Plugin active : `ia-pilote-mcp-ability`
+1.  **Prérequis** : Node.js installé.
+2.  **Installation** :
+    ```bash
+    cd MCP
+    npm install
+    npm run build
+    ```
 
-## Installation
+## ⚙️ Configuration
 
-1. Deployer le dossier `ia-pilote-mcp-ability/` dans `wp-content/plugins/`
-2. Activer le plugin dans WordPress
-3. Aller dans `Admin -> IA Pilote MCP`
+1.  Ouvrez le fichier `.env` dans le dossier `MCP`.
+2.  Remplissez vos informations :
+    *   `WP_URL` : L'URL de votre site (ex: `https://adjm-evenementiel.fr`)
+    *   `WP_USERNAME` : Votre identifiant administrateur WordPress.
+    *   `WP_APP_PASSWORD` : Votre mot de passe d'application.
+        *   *Pour le créer : Admin WP > Utilisateurs > Profil > Mots de passe d'application.*
 
-Pour generer un ZIP propre (dossier racine = `ia-pilote-mcp-ability/`) :
+## 🚀 Utilisation dans Cursor / Claude Desktop
 
-- Windows : `build.ps1 -Version 1.6.0` (ou `build.bat 1.6.0`)
-
-## Configuration MCP (exemple)
-
-Remplacez `https://example.com` par l'URL de votre site et utilisez un mot de passe d'application WordPress (Profil utilisateur -> "Mots de passe d'application").
-
-### Claude Desktop (via mcp-remote)
-
-Fichier :
-
-- Windows : `%APPDATA%\\Claude\\claude_desktop_config.json`
-- macOS : `~/Library/Application Support/Claude/claude_desktop_config.json`
-
-```json
-{
-  "mcpServers": {
-    "wordpress": {
-      "command": "npx",
-      "args": ["-y", "@anthropic-ai/mcp-remote"],
-      "env": {
-        "MCP_ENDPOINT": "https://example.com/wp-json/adjm-mcp/v1/mcp",
-        "MCP_HEADERS": "{\"Authorization\":\"Basic BASE64_ENCODED_CREDENTIALS\"}"
-      }
-    }
-  }
-}
-```
-
-Generer le Base64 :
-
-```powershell
-[Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes("USERNAME:APP_PASSWORD"))
-```
-
-## Endpoints
-
-- Health : `https://example.com/wp-json/adjm-mcp/v1/health`
-- REST discover : `https://example.com/wp-json/adjm-mcp/v1/discover`
-- REST execute : `https://example.com/wp-json/adjm-mcp/v1/execute`
-- MCP tools list : `https://example.com/wp-json/adjm-mcp/v1/mcp/tools/list`
-- MCP tools call : `https://example.com/wp-json/adjm-mcp/v1/mcp/tools/call`
-
-## Docs
-
-- Guide complet : `docs/CONFIGURATION-MCP.md`
-- Fiche rapide : `docs/FICHE-INSTALLATION-CONFIG-MCP.md`
-
-## MCP Bridge (optionnel)
-
-Un bridge Node.js (serveur MCP local en stdio) est disponible dans ce meme depot sur la branche `mcp-bridge` :
-
-- `github:stophe013/ia-pilote-mcp-WordPress#mcp-bridge`
-
-Utile si votre client MCP refuse les noms d'outils avec `/` (le bridge convertit `/` <-> `__`) ou impose un serveur local stdio.
-
-Exemple (Claude Desktop / Cursor) :
+Ajoutez cette configuration à votre fichier `mcp_config.json` (ou paramètres Cursor) :
 
 ```json
 {
   "mcpServers": {
     "ia-pilote-bridge": {
-      "command": "npx",
-      "args": ["-y", "github:stophe013/ia-pilote-mcp-WordPress#mcp-bridge"],
+      "command": "node",
+      "args": [
+        "D:/Projet/06_DEV/wordpress-plugins/MCP/build/index.js"
+      ],
       "env": {
-        "WP_URL": "https://example.com",
-        "WP_USERNAME": "USERNAME",
-        "WP_APP_PASSWORD": "xxxx xxxx xxxx xxxx"
+        "WP_URL": "https://votre-site.fr",
+        "WP_USERNAME": "votre_identifiant",
+        "WP_APP_PASSWORD": "VOTRE_MOT_DE_PASSE_APPLICATION"
       }
     }
   }
 }
 ```
+
+> **Note**: Le serveur inclut une sécurité (troncation automatique) pour empêcher l'IA de planter si une réponse dépasse 25 000 caractères.
+
+## 🔍 Dépannage
+
+*   Si l'erreur "404 No Route" persiste, assurez-vous que les **Permaliens** sont activés sur WordPress (Réglages > Permaliens > Titre de la publication).
+*   Si l'authentification échoue, vérifiez que le mot de passe d'application est correct et sans espaces superflus.

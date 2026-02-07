@@ -1,7 +1,3 @@
-*.zip
-*.log
-.DS_Store
-Thumbs.db
-
-# Local dev leftovers (bridge moved to separate repo)
-mcp/
+.env
+node_modules/
+build/

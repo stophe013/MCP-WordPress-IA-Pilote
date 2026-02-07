@@ -1,0 +1,4 @@
+{
+    "css": "\n\/* === CHARTE GRAPHIQUE ADJM - VERSION MINIMALE === *\/\n\/* Header ger\u00e9 par WordPress par d\u00e9faut *\/\n\n@import url('https:\/\/fonts.googleapis.com\/css2?family=Barlow:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');\n\n:root {\n    --adjm-bleu-royal: #2B34A6;\n    --adjm-bleu-fonce: #132060;\n    --adjm-bleu-clair: #8895DD;\n    --adjm-creme: #FFFDF3;\n}\n\n\/* Typographie de base *\/\nbody {\n    font-family: 'Inter', sans-serif;\n}\n\nh1, h2, h3, h4, h5, h6 {\n    font-family: 'Barlow', sans-serif;\n}\n\n\/* Boutons *\/\n.wp-block-button__link {\n    border-radius: 8px;\n    font-family: 'Barlow', sans-serif;\n    font-weight: 600;\n}\n",
+    "theme": "twentytwentyfour"
+}
